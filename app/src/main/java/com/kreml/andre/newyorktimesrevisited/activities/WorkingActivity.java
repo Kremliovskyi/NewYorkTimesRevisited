@@ -166,6 +166,29 @@ public class WorkingActivity extends AppCompatActivity implements NavigationView
         mAdapter = new NYCategoriesAdapter(drawerItemList, this);
         mAdapter.setListener(this);
         mCategoriesList.setAdapter(mAdapter);
+        handleCategorySelectionByPager();
+    }
+
+    private void handleCategorySelectionByPager() {
+        mPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (mAdapter != null) {
+                    mAdapter.handleCategoryClick(position);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void initDrawer(Toolbar toolbar) {

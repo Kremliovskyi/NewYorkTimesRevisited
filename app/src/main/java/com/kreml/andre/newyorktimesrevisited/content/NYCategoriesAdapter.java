@@ -63,6 +63,14 @@ public class NYCategoriesAdapter extends BaseAdapter {
                 : ContextCompat.getColor(mContext, R.color.background_main));
 
         holder.mCategory.setOnClickListener(v -> {
+            handleCategoryClick(position);
+        });
+
+        return convertView;
+    }
+
+    public void handleCategoryClick(int position) {
+        if (mListener != null && mDrawerItems != null) {
             for (int i = 0; i < mDrawerItems.size(); i++) {
                 mDrawerItems.get(i).setSelected(i == position);
             }
@@ -70,9 +78,7 @@ public class NYCategoriesAdapter extends BaseAdapter {
             setClickedPosition(position);
             mListener.setFocus(position);
             mListener.scrollTo(position);
-        });
-
-        return convertView;
+        }
     }
 
     private class ViewHolder {
@@ -90,7 +96,7 @@ public class NYCategoriesAdapter extends BaseAdapter {
         void scrollTo(int position);
     }
 
-    public void setClickedPosition(int clickedPosition) {
+    private void setClickedPosition(int clickedPosition) {
         this.mClickedPosition = clickedPosition;
     }
 
