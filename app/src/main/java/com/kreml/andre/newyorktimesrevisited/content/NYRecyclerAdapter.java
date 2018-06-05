@@ -2,6 +2,7 @@ package com.kreml.andre.newyorktimesrevisited.content;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,7 +48,7 @@ public class NYRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+    public void onAttachedToRecyclerView(@NonNull RecyclerView recyclerView) {
         super.onAttachedToRecyclerView(recyclerView);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -64,8 +65,9 @@ public class NYRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         });
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         RecyclerView.ViewHolder viewHolder;
         View view;
@@ -82,7 +84,7 @@ public class NYRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ArticleViewHolder) {
             ArticleViewHolder articleViewHolder = (ArticleViewHolder) holder;
             String imageUrl = mList.get(position).getPhoto();
@@ -93,8 +95,8 @@ public class NYRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                         .load(imageUrl)
                         .apply(new RequestOptions()
                                 .override(Constants.MAIN_PHOTO_WIDTH, Constants.MAIN_PHOTO_HEIGHT)
-                                .centerInside()
-                        ).into(articleViewHolder.mFirstItemPhoto);
+                                .centerInside())
+                        .into(articleViewHolder.mFirstItemPhoto);
             } else {
                 if (!TextUtils.isEmpty(imageUrl)) {
                     articleViewHolder.mFirstItemPhoto.setVisibility(View.GONE);
@@ -104,8 +106,8 @@ public class NYRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                             .load(imageUrl)
                             .apply(new RequestOptions()
                                     .override(Constants.SMALL_PHOTO_SIZE, Constants.SMALL_PHOTO_SIZE)
-                                    .centerInside()
-                            ).into(articleViewHolder.mItemPhoto);
+                                    .centerInside())
+                            .into(articleViewHolder.mItemPhoto);
                 } else {
                     articleViewHolder.mItemPhoto.setVisibility(View.GONE);
                     articleViewHolder.mFirstItemPhoto.setVisibility(View.GONE);

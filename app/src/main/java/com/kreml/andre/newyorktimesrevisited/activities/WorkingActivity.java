@@ -228,10 +228,9 @@ public class WorkingActivity extends AppCompatActivity implements NavigationView
                 if (inputStream != null) {
                     File savedImage = new File(getFilesDir(), new SimpleDateFormat("yyyyMMdd_HHmmss",
                             Locale.getDefault()).format(new Date()));
-                    FileOutputStream outputStream = new FileOutputStream(savedImage);
-                    outputStream.write(IOUtils.toByteArray(inputStream));
-                    inputStream.close();
-                    outputStream.close();
+                    try(FileOutputStream outputStream = new FileOutputStream(savedImage)){
+                        outputStream.write(IOUtils.toByteArray(inputStream));
+                    }
                     setPic(savedImage.getPath());
                     mModel.putImageToDB(savedImage.getPath(), mUser.getUsername());
                 }
@@ -266,7 +265,8 @@ public class WorkingActivity extends AppCompatActivity implements NavigationView
     private void tryToSetImage() {
         MutableLiveData<Bitmap> userAvatarBitmap = mModel.mSelectedImage;
         userAvatarBitmap.observe(this, bitmap ->
-                mUserImage.setImageDrawable(new RoundedImage(bitmap)));
+                mUserImage.setImageDrawable(RoundedImage.getCroppedRoundedImageFromBitmap(bitmap,
+                Constants.BITMAP_SIZE, Constants.BITMAP_SIZE)));
         Bitmap avatar = userAvatarBitmap.getValue();
         if (avatar == null) {
             String pathToImage = mUser.getPathToImage();
